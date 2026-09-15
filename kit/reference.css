@@ -1,0 +1,321 @@
+/*
+ * Lighthouse UIKit · reference skin
+ * Load after lighthouse.css. Put .ref-ui on a scene ancestor.
+ * This contains only stretchable CSS/vector painting; all labels remain DOM text.
+ * Override --ref-* properties on a panel to scale its composition independently.
+ * Header markup: .lh-panel__header > img + .lh-panel__title + .lh-panel__close.
+ */
+@font-face {
+  font-family: 'Lilita One';
+  src: url('../assets/fonts/lilita-one.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DynaPuff';
+  src: url('../assets/fonts/dynapuff-medium.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DynaPuff';
+  src: url('../assets/fonts/dynapuff-bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+.ref-ui {
+  --lh-font: 'DynaPuff', 'Nunito', sans-serif;
+  --lh-ink: #0752a1;
+  --lh-ink-deep: #062d72;
+  --lh-paper: #fffdf4;
+  --lh-blue-edge: #269fea;
+  --lh-aqua: #c4f0fc;
+  --ref-display-font: 'DynaPuff', 'Nunito', sans-serif;
+  --ref-title-tilt: -1.1deg;
+  --ref-stroke: 7px;
+  --ref-radius: 40px;
+  --ref-header-art-width: 82px;
+  --ref-header-art-height: 104px;
+  --ref-header-gap: 12px;
+  --ref-header-lift: 25px;
+  --ref-header-height: 78px;
+  --ref-title-size: clamp(23px, 2.8vw, 43px);
+  --ref-row-title-size: clamp(19px, 2.15vw, 32px);
+  --ref-row-description-size: clamp(14px, 1.6vw, 23px);
+  --ref-button-size: clamp(16px, 1.9vw, 27px);
+  --ref-icon-size: 72px;
+  --ref-button-shape: 1.05em 1.12em 1.02em 1.09em / 48% 51% 47% 49%;
+  --ref-surface-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.42' numOctaves='3' seed='21'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 .22 0 0 0 0 .38 0 0 0 0 .50 .018 .018 .018 0 0'/%3E%3C/filter%3E%3Cpath fill='none' filter='url(%23grain)' d='M0 0h160v160H0z'/%3E%3C/svg%3E");
+  --ref-brush: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20116%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cfilter%20id%3D%22water%22%20x%3D%22-3%25%22%20y%3D%22-9%25%22%20width%3D%22106%25%22%20height%3D%22118%25%22%20color-interpolation-filters%3D%22sRGB%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.018%20.11%22%20numOctaves%3D%223%22%20seed%3D%2216%22%20result%3D%22wet%22%2F%3E%3CfeDisplacementMap%20in%3D%22SourceGraphic%22%20in2%3D%22wet%22%20scale%3D%223.6%22%20xChannelSelector%3D%22R%22%20yChannelSelector%3D%22G%22%20result%3D%22edge%22%2F%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.38%20.64%22%20numOctaves%3D%223%22%20seed%3D%228%22%20result%3D%22paper%22%2F%3E%3CfeColorMatrix%20in%3D%22paper%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%201%200%200%200%200%201%200%200%200%200%201%20.046%20.046%20.046%200%200%22%20result%3D%22fiber%22%2F%3E%3CfeBlend%20in%3D%22edge%22%20in2%3D%22fiber%22%20mode%3D%22screen%22%20result%3D%22pigment%22%2F%3E%3CfeComposite%20in%3D%22pigment%22%20in2%3D%22edge%22%20operator%3D%22in%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cg%20filter%3D%22url%28%23water%29%22%3E%3Cpath%20fill%3D%22%2348acf1%22%20opacity%3D%22.46%22%20d%3D%22M45%209C85%202%20135%206%20175%207%20287%209%20363%202%20462%204%20567%202%20698-2%20768%2010Q812%2019%20770%2027L798%2033Q809%2042%20767%2045L792%2056Q808%2063%20759%2072L777%2083Q788%2091%20744%2096L721%20105%20513%20109%20311%20110%20185%20108%2037%20115Q1%20112%200%2084C-3%2054%2013%2019%2045%209Z%22%2F%3E%3Cpath%20fill%3D%22%23208eef%22%20d%3D%22M37%2014C55%205%2082%2011%20101%2010L156%2012%20237%2011C339%203%20403%206%20479%208%20585%202%20703-1%20761%2011%20794%2017%20782%2027%20753%2033L734%2040Q790%2033%20785%2045C782%2051%20757%2055%20739%2061L722%2065Q783%2060%20773%2072C766%2079%20743%2081%20721%2088L747%2090Q762%2097%20729%20101L553%20104%20385%20108%20213%20105%2093%20111%2032%20109Q2%20106%200%2082C-4%2050%209%2025%2037%2014Z%22%2F%3E%3Cpath%20fill%3D%22%2336a4f1%22%20opacity%3D%22.74%22%20d%3D%22M55%2017Q81%205%20107%2012L141%2018%20110%2028%20132%2033Q137%2041%2092%2046L71%2057%2070%2079%2043%2090%2017%2088%2013%2078%2037%2062%2035%2048%2065%2035%2048%2030ZM350%209Q413%204%20464%208L515%2014%20488%2020%20426%2019%20403%2024%20369%2021%20329%2026%20297%2024%20333%2017ZM697%2011L760%2017%20772%2023%20726%2028%20740%2034%20697%2044%20687%2038%20709%2026%20668%2023ZM728%2078L755%2078%20739%2090%20697%2092%20704%2085Z%22%2F%3E%3Cpath%20fill%3D%22%23057dda%22%20opacity%3D%22.33%22%20d%3D%22M1%2082%2030%2074Q53%2078%2061%2087L111%2094%20189%2096%20216%20102%20151%20107%20102%20107%2057%20111%2023%20108Q4%20106%201%2082ZM278%2089Q338%2095%20385%2091L465%2092%20518%2096%20608%2088%20653%2092%20700%2086%20730%2094%20722%20100%20557%20105%20444%20109%20346%20106%20273%20109%20232%20106Z%22%2F%3E%3Cpath%20fill%3D%22%23127fe0%22%20opacity%3D%22.3%22%20d%3D%22M86%2020Q180%2010%20232%2016L194%2023%20147%2025%20163%2032%20151%2035%20102%2032ZM556%2015Q642%205%20704%2013L718%2018%20665%2023%20611%2022%20576%2026%20540%2023Z%22%2F%3E%3Cpath%20fill%3D%22%2369c6f9%22%20opacity%3D%22.52%22%20d%3D%22M80%2044%20111%2031%20148%2035%20165%2033%20148%2040%20125%2040%20113%2051%2091%2054ZM30%2070%2044%2059%2058%2055%2051%2071%2040%2078%2027%2078ZM168%2097%20204%2094%20242%2098%20224%20103%20186%20102Z%22%2F%3E%3Cpath%20fill%3D%22%2397e0fc%22%20d%3D%22m137%2014%2025-2q19%203%202%207l-16%202q-26-1-11-7zm610%2037%2017-4q15-1%206%205l-21%206q-19%201-2-7z%22%2F%3E%3Cpath%20fill%3D%22%23d2f4ff%22%20d%3D%22m163%2013%2012-2q12%200%205%204l-14%203q-10%200-3-5z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  --ref-paint-flecks: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='221' height='157' viewBox='0 0 221 157'%3E%3Cg fill='%2379d9f6' opacity='.65'%3E%3Cpath d='m6 31 14-8 12-1-10 9-12 3zM132 2l17 1 12 4-25 3-15-3zM205 65l5 12 1 20-4-7-3-16zM33 147l21-4 16 1-9 5-27 3z'/%3E%3C/g%3E%3Cg fill='%23077edb' opacity='.36'%3E%3Cpath d='m97 18 19-5 17 4-12 4-20 1zM178 120l12-10 18-4-11 13-16 4zM9 87l5 7 1 25-5 7-2-19z'/%3E%3C/g%3E%3C/svg%3E");
+  color: var(--lh-ink);
+  font-family: var(--lh-font);
+  font-weight: 500;
+}
+
+/* Rounded painted frame: pigment varies around the border and retains its
+ * physical stroke width when a panel stretches in either direction. */
+.ref-ui .lh-panel {
+  border: var(--ref-stroke) solid transparent;
+  border-radius: var(--ref-radius) calc(var(--ref-radius) * .86) calc(var(--ref-radius) * .92) calc(var(--ref-radius) * 1.02) / calc(var(--ref-radius) * 1.08) var(--ref-radius) calc(var(--ref-radius) * .91) calc(var(--ref-radius) * 1.02);
+  background: var(--ref-surface-grain) 0 0 / 160px 160px repeat padding-box,
+    linear-gradient(105deg, #fffdf5, #fffcf5 63%, #fbfff9) padding-box,
+    conic-gradient(from 6deg at 51% 48%, #25a5ef, #2788dd 19%, #43b6f3 27%, #2596e8 37%, #42b5f1 51%, #0789e0 68%, #46b7ef 83%, #259aeb) border-box;
+  box-shadow: inset 0 0 0 2px #fffefa, 0 3px 0 rgb(18 124 179 / 12%);
+  overflow: visible;
+}
+.ref-ui .lh-panel::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--ref-stroke));
+  z-index: -1;
+  padding: calc(var(--ref-stroke) + 2px);
+  border-radius: inherit;
+  background: var(--ref-paint-flecks) 0 0 / 221px 157px repeat;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.ref-ui .lh-panel::after {
+  inset: 11px 13px;
+  border: 0;
+  border-radius: calc(var(--ref-radius) * .62);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 53 47'%3E%3Cg fill='%2391e3f9' opacity='.82'%3E%3Cpath d='M8 20C8 14 28 5 34 8S24 21 14 23 6 23 8 20Z'/%3E%3Cpath d='M11 29c9-5 25-10 21-5s-24 11-21 5zm26-2c7-3 11-1 9 2s-15 5-9-2z'/%3E%3C/g%3E%3C/svg%3E") 0 100% / 43px 38px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 53 47'%3E%3Cg fill='%2391e3f9' opacity='.82'%3E%3Cpath d='M8 20C8 14 28 5 34 8S24 21 14 23 6 23 8 20Z'/%3E%3Cpath d='M11 29c9-5 25-10 21-5s-24 11-21 5zm26-2c7-3 11-1 9 2s-15 5-9-2z'/%3E%3C/g%3E%3C/svg%3E") calc(100% - 55px) 0 / 43px 38px no-repeat;
+  opacity: .9;
+}
+.ref-ui .lh-panel__body { padding: 11px 27px 18px; }
+
+/* The ribbon is attached to the text's own intrinsic box, not to a fixed-width
+ * screenshot or the panel width. Long titles wrap and repaint naturally. */
+.ref-ui .lh-panel__header {
+  position: relative;
+  min-height: var(--ref-header-height);
+  gap: var(--ref-header-gap);
+  margin-top: calc(-1 * var(--ref-header-lift));
+  padding: 4px 24px 9px;
+  isolation: isolate;
+  overflow: visible;
+}
+.ref-ui .lh-panel__header::before,
+.ref-ui .lh-panel__header::after { display: none; }
+.ref-ui .lh-panel__title {
+  position: relative;
+  z-index: 0;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(100% - var(--ref-header-art-width) - 90px);
+  padding: 0 4px;
+  margin: 0 auto 0 0;
+  font-family: var(--ref-display-font);
+  font-size: var(--ref-title-size);
+  font-weight: 500;
+  line-height: 1.07;
+  letter-spacing: .025em;
+  color: #fff;
+  text-transform: uppercase;
+  -webkit-text-stroke: .9px #0759b5;
+  paint-order: stroke fill;
+  text-shadow: 0 2px 0 #0755b0, 0 3px 1px rgb(2 81 178 / 25%);
+  transform: rotate(var(--ref-title-tilt));
+  transform-origin: 20% 55%;
+}
+.ref-ui .lh-panel__title::before {
+  content: '';
+  position: absolute;
+  inset: -16px -40px -17px calc(-1 * (var(--ref-header-art-width) + var(--ref-header-gap) + 26px));
+  z-index: -1;
+  background: var(--ref-brush) center / 100% 100% no-repeat;
+  transform: rotate(-.5deg);
+  transform-origin: 15% 55%;
+  pointer-events: none;
+}
+.ref-ui .lh-panel__header > img {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  width: var(--ref-header-art-width);
+  height: var(--ref-header-art-height);
+  max-width: none;
+  margin: -23px 0 -8px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 0 rgb(2 77 140 / 25%));
+}
+/* Use on a header without decorative lighthouse artwork. */
+.ref-ui .lh-panel__header--plain { --ref-header-art-width: 0px; --ref-header-gap: 0px; }
+.ref-ui .lh-panel__header--plain .lh-panel__title { max-width: calc(100% - 70px); padding-left: 13px; }
+
+.ref-ui .lh-panel__close {
+  position: relative;
+  z-index: 3;
+  align-self: center;
+  flex: 0 0 auto;
+  width: var(--ref-close-size, 72px);
+  min-width: var(--ref-close-size, 72px);
+  height: var(--ref-close-size, 72px);
+  padding: 0;
+  margin: -8px -25px 0 16px;
+  border: 3px solid #ee425d;
+  border-radius: 28% 32% 28% 31% / 32% 30% 32% 29%;
+  background: radial-gradient(ellipse at 24% 16%, #ff8390, transparent 70%), linear-gradient(145deg, #ff677a, #fa536e);
+  box-shadow: inset 0 3px 0 #ffacb5, inset 3px 0 0 rgb(255 175 187 / 40%), inset -3px -3px 0 #ed4562, 0 3px 0 #c83d58, 0 0 0 2px #ffe5d2;
+  color: transparent;
+  font-size: 0;
+  text-shadow: none;
+}
+.ref-ui .lh-panel__close > * { opacity: 0; }
+.ref-ui .lh-panel__close::before,
+.ref-ui .lh-panel__close::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 62%;
+  height: 15%;
+  border-radius: 10px;
+  background: #fffff8;
+  box-shadow: 0 1px 0 rgb(201 53 88 / 15%);
+  pointer-events: none;
+}
+.ref-ui .lh-panel__close::before { transform: translate(-50%, -50%) rotate(45deg); }
+.ref-ui .lh-panel__close::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+/* Achievement strips remain independent flexible rows, and status pills may
+ * move to a second line on narrow devices rather than intersect the label. */
+.ref-ui .lh-row {
+  gap: 18px;
+  padding: 5px 19px 5px 24px;
+  border: 0;
+  border-radius: 38px 35px 36px 36px / 34px 35px 32px 34px;
+  background: radial-gradient(ellipse at 30% 12%, rgb(231 252 255 / 45%), transparent 70%), linear-gradient(92deg, #c4f0fc, #bfeefb);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 60%);
+}
+.ref-ui .lh-row__title {
+  font-family: var(--lh-font);
+  font-size: var(--ref-row-title-size);
+  line-height: 1.05;
+  font-weight: 500;
+  color: #052e76;
+  -webkit-text-stroke: .3px #052e76;
+  paint-order: stroke fill;
+  letter-spacing: .005em;
+}
+.ref-ui .lh-row__description { margin-top: 1px; color: #008bea; font-family: var(--lh-font); font-size: var(--ref-row-description-size); line-height: 1.15; font-weight: 500; }
+.ref-ui .lh-icon-badge {
+  width: var(--ref-icon-size);
+  height: calc(var(--ref-icon-size) * .89);
+  border-width: 2px;
+  border-radius: 49% 48% 45% 47%;
+  background: radial-gradient(ellipse at 31% 17%, #56c8ff 0, #25b0f8 37%, #1484e7 94%);
+  box-shadow: inset 1px 2px 0 #9ce8ff, inset -2px -1px 0 rgb(12 82 177 / 17%);
+}
+.ref-ui .lh-icon-badge > img { width: 100%; height: 100%; max-width: none; object-fit: contain; }
+.ref-ui .lh-icon-badge--gold { border-color: #f2c352; background: radial-gradient(ellipse at 31% 20%, #ffeaaa, #ffdb66 68%, #ffc646); box-shadow: inset 1px 2px 0 #fff3c5, 0 0 0 2px #eafcff; }
+.ref-ui .lh-icon-badge--night { border-color: #3971b4; background: radial-gradient(ellipse at 31% 17%, #5c9ddb, #416bb6 94%); }
+
+.ref-ui .lh-button {
+  --lh-btn-top: #ffe667;
+  --lh-btn-bottom: #ffdb38;
+  --lh-btn-edge: #edb62d;
+  --lh-btn-shadow: #e5aa25;
+  --lh-btn-ink: #033779;
+  min-height: 46px;
+  padding: 6px 24px 8px;
+  border: 2px solid var(--lh-btn-edge);
+  border-radius: var(--ref-button-shape);
+  background: var(--ref-surface-grain) 0 0 / 160px 160px repeat,
+    radial-gradient(ellipse at 30% 12%, rgb(255 251 182 / 20%), transparent 64%), linear-gradient(var(--lh-btn-top), var(--lh-btn-bottom));
+  box-shadow: inset 0 2px 0 rgb(255 255 235 / 90%), inset 0 -1px 0 rgb(247 183 34 / 15%), 0 2px 0 var(--lh-btn-shadow), 0 0 0 1px #fffde9;
+  font-family: var(--ref-display-font);
+  font-size: var(--ref-button-size);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: .015em;
+  -webkit-text-stroke: .3px currentColor;
+  paint-order: stroke fill;
+}
+.ref-ui .lh-button--success { --lh-btn-top: #7ed57d; --lh-btn-bottom: #54bd65; --lh-btn-edge: #69b960; --lh-btn-shadow: #48a556; --lh-btn-ink: #fff; }
+.ref-ui .lh-button--danger { --lh-btn-top: #ff8593; --lh-btn-bottom: #f75570; --lh-btn-edge: #eb5a71; --lh-btn-shadow: #cc3d5a; --lh-btn-ink: #fff; }
+.ref-ui .lh-button--secondary { --lh-btn-top: #a4d8f2; --lh-btn-bottom: #8cbce1; --lh-btn-edge: #7eb3dc; --lh-btn-shadow: #6fa4cf; --lh-btn-ink: #fff; }
+.ref-ui .lh-button--ghost { --lh-btn-top: #d9f6ff; --lh-btn-bottom: #b9eaf9; --lh-btn-edge: #8cd5f1; --lh-btn-shadow: #70bedc; --lh-btn-ink: #0879c2; }
+.ref-ui .lh-button--sm { min-height: 34px; padding: 6px 13px; font-size: calc(var(--ref-button-size) * .68); }
+.ref-ui .lh-button--lg { min-height: 58px; padding: 10px 28px 12px; font-size: calc(var(--ref-button-size) * 1.07); }
+.ref-ui .lh-button:disabled,
+.ref-ui .lh-button[aria-disabled="true"] { --lh-btn-top: #aedaf2; --lh-btn-bottom: #90c3e6; --lh-btn-edge: #77afda; --lh-btn-shadow: #73a8d4; color: #589acd; }
+.ref-ui .lh-badge {
+  padding: 6px 14px 7px;
+  border: 1.5px solid #799bca;
+  border-radius: 999px;
+  background: linear-gradient(#87a7d3, #7798c8);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 35%);
+  font-family: var(--ref-display-font);
+  font-size: var(--ref-badge-size, clamp(12px, 1.18vw, 18px));
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: .005em;
+  -webkit-text-stroke: .25px currentColor;
+  paint-order: stroke fill;
+}
+.ref-ui .lh-badge--lg { padding: 8px 19px; font-size: var(--ref-status-size, clamp(19px, 2.05vw, 30px)); }
+.ref-ui .lh-badge--success, .ref-ui .lh-badge--uncommon { border-color: #72ba65; background: linear-gradient(#87d47c, #63b965); }
+.ref-ui .lh-badge--rare { border-color: #3792df; background: linear-gradient(#6abcf2, #499de4); }
+.ref-ui .lh-badge--epic { border-color: #9570d0; background: linear-gradient(#c19af0, #a47adc); }
+.ref-ui .lh-badge--warning { border-color: #edbc40; background: linear-gradient(#ffe58a, #ffcc4d); }
+.ref-ui .lh-badge--danger { border-color: #e86178; background: linear-gradient(#ff99a7, #f37185); }
+.ref-ui .lh-badge--locked { border-color: #6486b4; background: linear-gradient(#88a5cf, #7594bf); }
+
+.ref-ui .lh-card {
+  padding: 8px;
+  border: 2px solid #b6e7f7;
+  border-radius: 30px 27px 28px 28px;
+  background: radial-gradient(ellipse at 23% 20%, #f2fdff, transparent 64%), linear-gradient(#daf7ff, #e7faff);
+  box-shadow: inset 0 0 0 4px rgb(255 255 255 / 58%);
+}
+.ref-ui .lh-card__art { border-radius: 24px 22px 20px 21px; background: linear-gradient(#a0e4f9, #73d5f4); }
+.ref-ui .lh-card__title { margin: 3px 0 6px; font-family: var(--lh-font); font-size: var(--ref-card-title-size, clamp(22px, 2.3vw, 33px)); line-height: 1; font-weight: 500; -webkit-text-stroke: .2px currentColor; paint-order: stroke fill; }
+.ref-ui .lh-card--selected,
+.ref-ui .lh-card[aria-selected="true"],
+.ref-ui .lh-card[aria-pressed="true"] { border-color: #31b964; box-shadow: inset 0 0 0 4px #f6fff5; }
+.ref-ui .lh-tab { padding: 12px 19px; border-radius: 30px; font-family: var(--lh-font); font-size: var(--ref-tab-size, clamp(17px, 1.9vw, 27px)); font-weight: 500; color: #fff; background: linear-gradient(#adcfe8, #91bde0); border-color: #82b7db; }
+.ref-ui .lh-tab[aria-selected="true"] { color: #075498; background: linear-gradient(#ffeb97, #ffdd72); border-color: #eebd43; box-shadow: inset 0 2px 0 #fff7c9, 0 3px 0 #e7b94c; }
+
+@media (max-width: 620px) {
+  .ref-ui {
+    --ref-stroke: 5px;
+    --ref-radius: 29px;
+    --ref-header-art-width: 58px;
+    --ref-header-art-height: 75px;
+    --ref-header-gap: 7px;
+    --ref-header-height: 60px;
+    --ref-header-lift: 17px;
+    --ref-close-size: 49px;
+    --ref-title-size: 25px;
+    --ref-icon-size: 49px;
+  }
+  .ref-ui .lh-panel__header { padding-inline: 12px; }
+  .ref-ui .lh-panel__header > img { margin-block: -14px -8px; }
+  .ref-ui .lh-panel__title { max-width: calc(100% - var(--ref-header-art-width) - 54px); }
+  .ref-ui .lh-panel__title::before { inset: -13px -37px -14px calc(-1 * (var(--ref-header-art-width) + var(--ref-header-gap) + 16px)); }
+  .ref-ui .lh-panel__close { margin-right: -11px; margin-left: 7px; }
+  .ref-ui .lh-panel__body { padding: 8px 13px 16px; }
+  .ref-ui .lh-row { gap: 9px; padding: 6px 10px; }
+}
+/* Isolated watercolor paint, sliced into fixed caps and a flexible centre.
+ * Only the paint is raster; every title is accessible, editable live text.
+ * The nine-slice also grows vertically for wrapped/localized headings. */
+.ref-ui .lh-panel__title::before {
+  background: none;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 11px 86px 11px 68px;
+  border-image-source: url('../assets/header-brush.png');
+  border-image-slice: 52 430 52 340 fill;
+  border-image-width: 11px 86px 11px 68px;
+  border-image-repeat: stretch;
+}

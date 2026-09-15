@@ -1,0 +1,438 @@
+{
+  "method": "Mechanical Pillow crops. Per-item preprocessing identifies three lighthouse backgrounds edited with built-in ImageGen to remove rarity badges; all other crops preserve original pixels.",
+  "coordinateFormat": "[left, top, right, bottom] in source pixels; right and bottom exclusive",
+  "sprites": {
+    "wave": {
+      "source": "1.png",
+      "crop": [
+        311,
+        132,
+        404,
+        204
+      ],
+      "path": "assets/sprites/wave.png",
+      "size": [
+        93,
+        72
+      ]
+    },
+    "moon": {
+      "source": "1.png",
+      "crop": [
+        313,
+        205,
+        403,
+        277
+      ],
+      "path": "assets/sprites/moon.png",
+      "size": [
+        90,
+        72
+      ]
+    },
+    "wind": {
+      "source": "1.png",
+      "crop": [
+        313,
+        279,
+        403,
+        351
+      ],
+      "path": "assets/sprites/wind.png",
+      "size": [
+        90,
+        72
+      ]
+    },
+    "cloud": {
+      "source": "1.png",
+      "crop": [
+        313,
+        352,
+        403,
+        424
+      ],
+      "path": "assets/sprites/cloud.png",
+      "size": [
+        90,
+        72
+      ]
+    },
+    "wind2": {
+      "source": "1.png",
+      "crop": [
+        313,
+        426,
+        403,
+        498
+      ],
+      "path": "assets/sprites/wind2.png",
+      "size": [
+        90,
+        72
+      ]
+    },
+    "owl": {
+      "source": "1.png",
+      "crop": [
+        313,
+        500,
+        403,
+        572
+      ],
+      "path": "assets/sprites/owl.png",
+      "size": [
+        90,
+        72
+      ]
+    },
+    "storm": {
+      "source": "1.png",
+      "crop": [
+        313,
+        574,
+        403,
+        646
+      ],
+      "path": "assets/sprites/storm.png",
+      "size": [
+        90,
+        72
+      ]
+    },
+    "turret": {
+      "source": "2.png",
+      "crop": [
+        385,
+        603,
+        468,
+        665
+      ],
+      "path": "assets/sprites/turret.png",
+      "size": [
+        83,
+        62
+      ]
+    },
+    "mine": {
+      "source": "2.png",
+      "crop": [
+        499,
+        603,
+        590,
+        665
+      ],
+      "path": "assets/sprites/mine.png",
+      "size": [
+        91,
+        62
+      ]
+    },
+    "bolt": {
+      "source": "2.png",
+      "crop": [
+        623,
+        603,
+        710,
+        665
+      ],
+      "path": "assets/sprites/bolt.png",
+      "size": [
+        87,
+        62
+      ]
+    },
+    "harbor": {
+      "source": "1.png",
+      "crop": [
+        510,
+        758,
+        649,
+        896
+      ],
+      "path": "assets/sprites/harbor.png",
+      "size": [
+        139,
+        138
+      ]
+    },
+    "classic": {
+      "source": "1.png",
+      "crop": [
+        860,
+        758,
+        999,
+        896
+      ],
+      "path": "assets/sprites/classic.png",
+      "size": [
+        139,
+        138
+      ]
+    },
+    "frost": {
+      "source": "1.png",
+      "crop": [
+        1244,
+        758,
+        1370,
+        896
+      ],
+      "path": "assets/sprites/frost.png",
+      "size": [
+        126,
+        138
+      ]
+    },
+    "header-lighthouse": {
+      "source": "1.png",
+      "crop": [
+        283,
+        5,
+        358,
+        126
+      ],
+      "path": "assets/sprites/header-lighthouse.png",
+      "size": [
+        75,
+        121
+      ]
+    },
+    "gem-reward": {
+      "source": "2.png",
+      "crop": [
+        72,
+        153,
+        144,
+        226
+      ],
+      "path": "assets/sprites/gem-reward.png",
+      "size": [
+        72,
+        73
+      ],
+      "preprocessing": "none; original pixels"
+    },
+    "drop-reward": {
+      "source": "2.png",
+      "crop": [
+        182,
+        154,
+        253,
+        226
+      ],
+      "path": "assets/sprites/drop-reward.png",
+      "size": [
+        71,
+        72
+      ],
+      "preprocessing": "none; original pixels"
+    },
+    "lantern-reward": {
+      "source": "2.png",
+      "crop": [
+        592,
+        154,
+        666,
+        226
+      ],
+      "path": "assets/sprites/lantern-reward.png",
+      "size": [
+        74,
+        72
+      ],
+      "preprocessing": "none; original pixels"
+    },
+    "harbor-art": {
+      "source": "1.png",
+      "crop": [
+        396,
+        755,
+        720,
+        900
+      ],
+      "path": "assets/sprites/harbor-art.png",
+      "size": [
+        324,
+        145
+      ],
+      "preprocessing": "Built-in ImageGen edit removes rarity badges only; exact prompt in assets/PROMPTS.md",
+      "sourceProcess": "ImageGen edit of the supplied reference; see assets/PROMPTS.md"
+    },
+    "classic-art": {
+      "source": "1.png",
+      "crop": [
+        750,
+        755,
+        1075,
+        900
+      ],
+      "path": "assets/sprites/classic-art.png",
+      "size": [
+        325,
+        145
+      ],
+      "preprocessing": "Built-in ImageGen edit removes rarity badges only; exact prompt in assets/PROMPTS.md",
+      "sourceProcess": "ImageGen edit of the supplied reference; see assets/PROMPTS.md"
+    },
+    "frost-art": {
+      "source": "1.png",
+      "crop": [
+        1107,
+        754,
+        1440,
+        900
+      ],
+      "path": "assets/sprites/frost-art.png",
+      "size": [
+        333,
+        146
+      ],
+      "preprocessing": "Built-in ImageGen edit removes rarity badges only; exact prompt in assets/PROMPTS.md",
+      "sourceProcess": "ImageGen edit of the supplied reference; see assets/PROMPTS.md"
+    },
+    "turret-art": {
+      "source": "2.png",
+      "crop": [
+        784,
+        580,
+        1213,
+        693
+      ],
+      "path": "assets/sprites/turret-art.png",
+      "size": [
+        429,
+        113
+      ],
+      "preprocessing": "none; original pixels"
+    },
+    "turret-card": {
+      "source": "2.png",
+      "crop": [
+        374,
+        751,
+        543,
+        834
+      ],
+      "path": "assets/sprites/turret-card.png",
+      "size": [
+        169,
+        83
+      ],
+      "preprocessing": "none; original pixels"
+    },
+    "mine-card": {
+      "source": "2.png",
+      "crop": [
+        563,
+        751,
+        724,
+        834
+      ],
+      "path": "assets/sprites/mine-card.png",
+      "size": [
+        161,
+        83
+      ],
+      "preprocessing": "none; original pixels"
+    },
+    "rotate-badge": {
+      "source": "2.png",
+      "crop": [
+        863,
+        90,
+        927,
+        148
+      ],
+      "path": "assets/sprites/rotate-badge.png",
+      "size": [
+        64,
+        58
+      ]
+    },
+    "target-badge": {
+      "source": "2.png",
+      "crop": [
+        863,
+        150,
+        927,
+        208
+      ],
+      "path": "assets/sprites/target-badge.png",
+      "size": [
+        64,
+        58
+      ]
+    },
+    "flame-badge": {
+      "source": "2.png",
+      "crop": [
+        863,
+        211,
+        927,
+        269
+      ],
+      "path": "assets/sprites/flame-badge.png",
+      "size": [
+        64,
+        58
+      ]
+    },
+    "bag-badge": {
+      "source": "2.png",
+      "crop": [
+        863,
+        272,
+        927,
+        330
+      ],
+      "path": "assets/sprites/bag-badge.png",
+      "size": [
+        64,
+        58
+      ]
+    },
+    "range-badge": {
+      "source": "2.png",
+      "crop": [
+        863,
+        333,
+        927,
+        391
+      ],
+      "path": "assets/sprites/range-badge.png",
+      "size": [
+        64,
+        58
+      ]
+    },
+    "burst-badge": {
+      "source": "2.png",
+      "crop": [
+        863,
+        393,
+        927,
+        451
+      ],
+      "path": "assets/sprites/burst-badge.png",
+      "size": [
+        64,
+        58
+      ]
+    },
+    "oil-badge": {
+      "source": "2.png",
+      "crop": [
+        863,
+        451,
+        927,
+        508
+      ],
+      "path": "assets/sprites/oil-badge.png",
+      "size": [
+        64,
+        57
+      ]
+    }
+  }
+}

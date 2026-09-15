@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b8cce">
+  <title>Маяк · игровой пример Lighthouse UIKit</title>
+  <link rel="stylesheet" href="../kit/lighthouse.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 280px; min-height: 100svh; background: #9ee8fa; color: var(--lh-ink); font-family: var(--lh-font); }
+    .game { position: relative; isolation: isolate; min-height: 100svh; overflow: hidden; background: radial-gradient(ellipse at 80% 5%, #f4feff 0, #f4feff00 32%), linear-gradient(#79daf9 0 45%, #30bce7 45% 62%, #109bd8 62% 100%); padding: clamp(14px, 3vw, 36px); }
+    .game::before { content: ''; position: absolute; z-index: -1; inset: 48% -20% -10%; transform: rotate(-7deg); background: repeating-linear-gradient(175deg, #ffffff00 0 64px, #a9effd66 65px 69px, #ffffff00 70px 114px); }
+    .hud { max-width: 1280px; margin: auto; display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; align-items: start; }
+    .hud__stats { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hud__stat { display: flex; align-items: center; gap: 10px; padding: 9px 16px; background: #fff9ed; border: 3px solid #2198d9; border-radius: 20px; box-shadow: 0 4px 0 #1472b73b; font-weight: 900; }
+    .hud__stat small { display: block; font-size: 11px; color: #3782ac; line-height: 1.2; }
+    .hud__stat strong { display: block; line-height: 1.2; font-size: 21px; }
+    .coin { display: inline-grid; place-items: center; width: 28px; height: 28px; color: #b26a0d; background: #ffdb48; border: 3px solid #edb62b; border-radius: 50%; font: 900 17px/1 sans-serif; }
+    .hud__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .scene { display: grid; justify-items: center; text-align: center; max-width: 760px; margin: 26px auto 10px; }
+    .scene__eyebrow { margin: 0; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .15em; color: #176997; }
+    .scene h1 { color: #123e72; font-weight: 1000; font-size: clamp(30px, 6vw, 54px); line-height: 1.06; margin: 8px 0; text-shadow: 0 3px #eafdff; }
+    .scene__caption { margin: 0; color: #17658c; font-weight: 800; max-width: 510px; }
+    .scene__art { width: min(370px, 66vw); height: min(300px, 58vw); object-fit: contain; filter: drop-shadow(0 16px 10px #0577b550); margin: 6px 0; }
+    .status { width: min(350px, 100%); padding: 12px 20px; background: #fffaf0eb; border: 3px solid #24a1e2; border-radius: 22px; box-shadow: 0 5px 0 #087ca637; text-align: left; }
+    .status__label { display: flex; gap: 10px; justify-content: space-between; font-size: 13px; font-weight: 900; margin-bottom: 8px; }
+    .status progress { display: block; width: 100%; }
+    .dock { position: relative; margin: 18px auto 0; max-width: 960px; display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; align-items: stretch; }
+    .dock .lh-panel { min-width: 0; }
+    .dock .lh-panel__body { display: grid; gap: 14px; }
+    .dock p { margin: 0; }
+    .dock__buttons { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+    .dock__buttons > button { flex: 1 1 160px; }
+    .game-footer { color: #eafbff; text-align: center; font-size: 12px; font-weight: 800; margin: 22px 0 0; }
+    .settings { display: grid; gap: 20px; }
+    .settings .lh-field { display: grid; gap: 8px; }
+    .settings input[type=range] { width: 100%; }
+    .settings__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .settings__actions > button { flex: 1 1 auto; }
+    .example-dialog { width: min(520px, calc(100vw - 28px)); }
+    .lh-toast-region { top: 110px; bottom: auto; }
+    @media (max-width: 620px) { .dock { grid-template-columns: 1fr; } .hud__actions { width: 100%; } .hud__actions > button { flex: 1; } .scene { margin-top: 22px; } .hud__stat { padding: 8px 12px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="game" id="game">
+    <header class="hud" aria-label="Игровые ресурсы">
+      <div class="hud__stats">
+        <div class="hud__stat"><span class="coin" aria-hidden="true">¢</span><span><small>МОНЕТЫ</small><strong id="coins">120</strong></span></div>
+        <div class="hud__stat"><span><small>ВОЛНА</small><strong><span id="wave">1</span> / 10</strong></span></div>
+        <div class="hud__stat"><span><small>МАЯК</small><strong>Ур. <span id="level">1</span></strong></span></div>
+      </div>
+      <div class="hud__actions">
+        <button class="lh-button lh-button--secondary lh-button--sm" id="settings-open">Настройки</button>
+        <button class="lh-button lh-button--secondary lh-button--sm" id="restart">Новая игра</button>
+      </div>
+    </header>
+
+    <section class="scene" aria-labelledby="scene-title">
+      <p class="scene__eyebrow">Маленькая бухта · уровень 01</p>
+      <h1 id="scene-title">Хранитель маяка</h1>
+      <p class="scene__caption">Встречайте волны, укрепляйте маяк и помогите кораблям вернуться домой.</p>
+      <img class="scene__art" src="../assets/lighthouse.png" alt="Красно-белый маяк на небольшом острове">
+      <div class="status">
+        <div class="status__label"><span>Прочность маяка</span><span id="health-text">100 / 100</span></div>
+        <progress class="lh-progress" id="health" value="100" max="100" aria-label="Прочность маяка">100%</progress>
+      </div>
+    </section>
+
+    <div class="dock">
+      <section class="lh-panel" aria-labelledby="voyage-title">
+        <header class="lh-panel__header"><h2 class="lh-panel__title" id="voyage-title">Навстречу приключениям</h2></header>
+        <div class="lh-panel__body">
+          <p id="mission" aria-live="polite">Первая волна уже близко. Маяк готов к работе!</p>
+          <button class="lh-button lh-button--primary lh-button--lg" id="next-wave">Встретить волну</button>
+          <small>Каждая волна приносит 25 монет и проверяет прочность маяка.</small>
+        </div>
+      </section>
+      <section class="lh-panel" aria-labelledby="workshop-title">
+        <header class="lh-panel__header"><h2 class="lh-panel__title" id="workshop-title">Мастерская</h2></header>
+        <div class="lh-panel__body">
+          <p>Улучшение уменьшает урон. Ремонт восстанавливает 40 единиц прочности.</p>
+          <div class="dock__buttons">
+            <button class="lh-button lh-button--success" id="upgrade">Улучшить · 80</button>
+            <button class="lh-button lh-button--secondary" id="repair">Ремонт · 35</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <p class="game-footer">Lighthouse UIKit · самостоятельный пример интеграции</p>
+  </main>
+
+  <dialog class="lh-dialog lh-panel example-dialog" id="settings-dialog" aria-labelledby="settings-title">
+    <header class="lh-panel__header">
+      <h2 class="lh-panel__title" id="settings-title">Настройки</h2>
+      <button class="lh-button lh-button--danger lh-button--icon lh-panel__close" id="settings-close" aria-label="Закрыть настройки">×</button>
+    </header>
+    <div class="lh-panel__body settings">
+      <label class="lh-field"><span>Имя смотрителя</span><input class="lh-input" id="keeper" maxlength="40" autocomplete="nickname" value="Капитан" placeholder="Как вас зовут?"></label>
+      <label class="lh-field"><span>Сила волн</span><select class="lh-select" id="difficulty"><option value="normal">Обычные волны</option><option value="hard">Штормовые волны</option></select></label>
+      <label class="lh-field"><span>Яркость неба · <output id="brightness-output" for="brightness">100%</output></span><input class="lh-range" id="brightness" type="range" min="65" max="100" value="100"></label>
+      <label class="lh-switch"><input id="tips" type="checkbox" checked><span>Показывать подсказки после волны</span></label>
+      <button class="lh-button lh-button--primary" id="settings-done">Вернуться к маяку</button>
+    </div>
+  </dialog>
+
+  <dialog class="lh-dialog lh-panel example-dialog" id="result-dialog" aria-labelledby="result-title">
+    <header class="lh-panel__header"><h2 class="lh-panel__title" id="result-title">Приключение завершено</h2></header>
+    <div class="lh-panel__body settings">
+      <p id="result-description"></p>
+      <button class="lh-button lh-button--primary" id="play-again">Ещё одно приключение</button>
+      <button class="lh-button lh-button--secondary" id="result-close">Посмотреть бухту</button>
+    </div>
+  </dialog>
+
+  <script type="module">
+    import { initLighthouse, toast, openDialog, closeDialog } from '../kit/lighthouse.js';
+
+    initLighthouse();
+    const $ = id => document.getElementById(id);
+    const game = $('game');
+    const state = { coins: 120, wave: 1, level: 1, health: 100, finished: false };
+    const settings = { keeper: 'Капитан', difficulty: 'normal', tips: true };
+    const upgradeCost = () => 80 + (state.level - 1) * 40;
+    let notification;
+    function notify(message) {
+      notification?.dismiss();
+      notification = toast(message, { tone: 'success', duration: 2400 });
+    }
+
+    function render() {
+      for (const key of ['coins', 'wave', 'level']) $(key).textContent = state[key];
+      $('health').value = state.health;
+      $('health-text').textContent = `${state.health} / 100`;
+      $('upgrade').textContent = state.level >= 4 ? 'Максимальный уровень' : `Улучшить · ${upgradeCost()}`;
+      $('upgrade').disabled = state.finished || state.level >= 4 || state.coins < upgradeCost();
+      $('repair').disabled = state.finished || state.health === 100 || state.coins < 35;
+      $('next-wave').disabled = state.finished;
+      $('next-wave').textContent = state.finished ? 'Приключение завершено' : `Встретить волну ${state.wave}`;
+    }
+
+    // An application-owned event contract: the visual kit has no game rules.
+    // A real game can replace this listener with its own scene/store/controller.
+    function dispatchAction(type) {
+      game.dispatchEvent(new CustomEvent('game:action', { bubbles: true, detail: { type } }));
+    }
+    game.addEventListener('game:action', event => {
+      const { type } = event.detail;
+      if (type === 'restart') {
+        Object.assign(state, { coins: 120, wave: 1, level: 1, health: 100, finished: false });
+        $('mission').textContent = 'Первая волна уже близко. Маяк готов к работе!';
+        if ($('result-dialog').open) closeDialog($('result-dialog'));
+      } else if (!state.finished && type === 'upgrade' && state.level < 4 && state.coins >= upgradeCost()) {
+        state.coins -= upgradeCost();
+        state.level++;
+        notify(`Маяк улучшен до уровня ${state.level}`);
+      } else if (!state.finished && type === 'repair' && state.health < 100 && state.coins >= 35) {
+        state.coins -= 35;
+        state.health = Math.min(100, state.health + 40);
+        notify('Маяк отремонтирован');
+      } else if (!state.finished && type === 'wave') {
+        const damage = Math.max(5, (settings.difficulty === 'hard' ? 28 : 20) - (state.level - 1) * 4);
+        state.health = Math.max(0, state.health - damage);
+        state.coins += 25;
+        const completed = state.wave;
+        $('mission').textContent = `Волна ${completed} пройдена. Корабль вернулся в гавань! +25 монет.`;
+        if (state.health === 0 || completed === 10) {
+          state.finished = true;
+          $('result-title').textContent = state.health === 0 ? 'Маяку нужен отдых' : 'Бухта в безопасности!';
+          $('result-description').textContent = state.health === 0
+            ? `${settings.keeper}, прочность маяка закончилась на волне ${completed}. Попробуйте чаще ремонтировать башню.`
+            : `${settings.keeper}, вы встретили все 10 волн и сохранили свет маяка. В гавани вас ждут ${state.coins} монет!`;
+          openDialog($('result-dialog'));
+        } else {
+          state.wave++;
+          if (settings.tips) notify(`Волна ${completed} пройдена · +25 монет`);
+        }
+      }
+      render();
+    });
+
+    for (const [id, type] of [['next-wave', 'wave'], ['upgrade', 'upgrade'], ['repair', 'repair'], ['restart', 'restart'], ['play-again', 'restart']]) {
+      $(id).addEventListener('click', () => dispatchAction(type));
+    }
+    $('settings-open').addEventListener('click', () => openDialog($('settings-dialog')));
+    for (const id of ['settings-close', 'settings-done']) $(id).addEventListener('click', () => closeDialog($('settings-dialog')));
+    $('result-close').addEventListener('click', () => closeDialog($('result-dialog')));
+    $('keeper').addEventListener('input', event => { settings.keeper = event.target.value.trim() || 'Капитан'; });
+    $('difficulty').addEventListener('change', event => { settings.difficulty = event.target.value; });
+    $('tips').addEventListener('change', event => { settings.tips = event.target.checked; });
+    $('brightness').addEventListener('input', event => {
+      $('brightness-output').value = `${event.target.value}%`;
+      game.style.filter = `brightness(${Number(event.target.value) / 100})`;
+    });
+    render();
+  </script>
+</body>
+</html>

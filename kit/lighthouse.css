@@ -1,0 +1,632 @@
+/*
+ * Lighthouse UIKit · v1.0
+ * Framework-independent game UI. Load your preferred rounded display font
+ * (the showcase supplies Nunito), then this stylesheet and optional runtime.
+ * All components grow with content. Every colour can be overridden per scene.
+ */
+@font-face {
+  font-family: 'Nunito';
+  src: url('../assets/fonts/nunito-regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('../assets/fonts/nunito-extrabold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('../assets/fonts/nunito-black.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+:root {
+  --lh-font: 'Nunito', 'Trebuchet MS', sans-serif;
+  --lh-ink: #094a8a;
+  --lh-ink-deep: #08396e;
+  --lh-blue: #139cec;
+  --lh-blue-deep: #077bd3;
+  --lh-blue-edge: #279fe3;
+  --lh-aqua: #d2f5fb;
+  --lh-paper: #fffcf1;
+  --lh-yellow: #ffdc46;
+  --lh-green: #4fc973;
+  --lh-red: #fb6070;
+  --lh-radius: 25px;
+  --lh-focus: #092f68;
+  --lh-shadow: 0 7px 0 rgb(2 91 158 / 12%), 0 15px 30px rgb(11 90 124 / 10%);
+}
+
+/* Local box sizing avoids changing the host game's own stylesheet. */
+:where([class^="lh-"], [class*=" lh-"]),
+:where([class^="lh-"], [class*=" lh-"]) *,
+:where([class^="lh-"], [class*=" lh-"])::before,
+:where([class^="lh-"], [class*=" lh-"])::after { box-sizing: border-box; }
+:where(.lh-button, .lh-panel, .lh-card, .lh-badge, .lh-icon-badge,
+  .lh-row, .lh-tabs, .lh-tab, .lh-field, .lh-input, .lh-select, .lh-textarea,
+  .lh-check, .lh-radio, .lh-switch, .lh-tooltip, .lh-dialog, .lh-toast) {
+  font-family: var(--lh-font);
+  color: var(--lh-ink);
+  font-weight: 800;
+  min-width: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+:where(.lh-button, .lh-tab, .lh-panel__close, .lh-input, .lh-select,
+  .lh-textarea, .lh-range):focus-visible {
+  outline: 3px solid var(--lh-focus);
+  outline-offset: 4px;
+}
+:where(.lh-button, .lh-tab, .lh-panel, .lh-card, .lh-badge, .lh-row, .lh-toast, .lh-field, .lh-check, .lh-radio, .lh-switch) {
+  overflow-wrap: anywhere;
+}
+.lh-icon { display: inline-block; width: 1.25em; height: 1.25em; flex: 0 0 auto; vertical-align: -.2em; }
+:where([class^="lh-"], [class*=" lh-"])[hidden], [data-lh-tabs] [hidden], [role="tabpanel"][hidden] { display: none !important; }
+
+/* BUTTONS: <button class="lh-button lh-button--primary">Any text</button>
+ * Use native disabled or aria-disabled="true". aria-pressed marks toggles.
+ */
+.lh-button {
+  --lh-btn-top: #ffe77a;
+  --lh-btn-bottom: #ffd432;
+  --lh-btn-edge: #e5ad26;
+  --lh-btn-shadow: #dc9e21;
+  --lh-btn-ink: var(--lh-ink-deep);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  min-height: 45px;
+  max-width: 100%;
+  padding: 9px 23px 11px;
+  border: 2px solid var(--lh-btn-edge);
+  border-radius: 17px 19px 18px 17px / 19px 17px 21px 18px;
+  background: linear-gradient(115deg, rgb(255 255 255 / 13%), transparent 42%),
+    linear-gradient(var(--lh-btn-top), var(--lh-btn-bottom));
+  color: var(--lh-btn-ink);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 65%),
+    inset 0 -2px 0 rgb(255 255 255 / 16%), 0 3px 0 var(--lh-btn-shadow);
+  font-size: 14px;
+  font-weight: 1000;
+  line-height: 1.25;
+  letter-spacing: .025em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+}
+.lh-button--primary { --lh-btn-top: #ffe77a; --lh-btn-bottom: #ffd432; }
+.lh-button--success {
+  --lh-btn-top: #76db87; --lh-btn-bottom: #39b964;
+  --lh-btn-edge: #37a75f; --lh-btn-shadow: #26834f;
+  --lh-btn-ink: #fff;
+  text-shadow: 0 1px 1px rgb(17 117 58 / 25%);
+}
+.lh-button--danger {
+  --lh-btn-top: #ff8290; --lh-btn-bottom: #f84f65;
+  --lh-btn-edge: #ed435c; --lh-btn-shadow: #c83555;
+  --lh-btn-ink: #fff;
+  text-shadow: 0 1px 1px rgb(154 34 62 / 20%);
+}
+.lh-button--secondary {
+  --lh-btn-top: #65cbff; --lh-btn-bottom: #299cea;
+  --lh-btn-edge: #278acf; --lh-btn-shadow: #1773bb;
+  --lh-btn-ink: #fff;
+  text-shadow: 0 1px 1px rgb(8 86 151 / 20%);
+}
+.lh-button--ghost {
+  --lh-btn-top: #ecfaff; --lh-btn-bottom: #d7f1fa;
+  --lh-btn-edge: #aedbec; --lh-btn-shadow: #94cadd;
+  --lh-btn-ink: #267bac;
+}
+.lh-button--sm { min-height: 34px; padding: 6px 14px 7px; font-size: 11px; border-radius: 13px; }
+.lh-button--lg { min-height: 57px; padding: 14px 33px; font-size: 17px; border-radius: 21px; }
+.lh-button--icon { width: 46px; min-width: 46px; height: 46px; padding: 8px; }
+.lh-button--icon.lh-button--sm { width: 35px; min-width: 35px; height: 35px; }
+.lh-button--icon.lh-button--lg { width: 58px; min-width: 58px; height: 58px; }
+.lh-button--block { display: flex; width: 100%; }
+/* Set aria-busy=true and disabled while awaiting game/network work. */
+.lh-button[aria-busy="true"]::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: lh-spin .75s linear infinite;
+}
+.lh-button[aria-pressed="true"] {
+  transform: translateY(2px);
+  box-shadow: inset 0 2px 4px rgb(9 64 102 / 18%), 0 1px 0 var(--lh-btn-shadow);
+}
+.lh-button:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: translateY(3px);
+  box-shadow: inset 0 2px 3px rgb(9 64 102 / 12%), 0 0 0 var(--lh-btn-shadow);
+}
+.lh-button:disabled, .lh-button[aria-disabled="true"] {
+  --lh-btn-top: #b2daef; --lh-btn-bottom: #97c4e3;
+  --lh-btn-edge: #8ab9d6; --lh-btn-shadow: #7eaccc;
+  color: #5489b1;
+  text-shadow: none;
+  cursor: not-allowed;
+}
+
+/* PANELS: native layout, painted ribbon, expandable body.
+ * <section class="lh-panel"><header class="lh-panel__header">
+ * <h2 class="lh-panel__title">Title</h2>...</header>
+ * <div class="lh-panel__body">...</div></section>
+ */
+.lh-panel {
+  position: relative;
+  border: 5px solid var(--lh-blue-edge);
+  border-radius: 32px 27px 31px 28px / 28px 34px 29px 33px;
+  background: radial-gradient(ellipse at 95% 4%, rgb(255 255 255 / 95%) 0, transparent 36%),
+    radial-gradient(ellipse at 4% 98%, #e5f9ff 0, transparent 25%), var(--lh-paper);
+  box-shadow: inset 0 0 0 3px #fff, var(--lh-shadow);
+  isolation: isolate;
+}
+.lh-panel::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgb(129 221 246 / 32%);
+  border-radius: 22px;
+  pointer-events: none;
+  z-index: -1;
+}
+.lh-panel__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 63px;
+  padding: 11px 24px 13px;
+  color: #fff;
+  isolation: isolate;
+}
+.lh-panel__header::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -6px 14% -1px -6px;
+  background: radial-gradient(ellipse at 18% 0, #44b9f4 0, transparent 43%),
+    linear-gradient(110deg, #159bee, #147fe0 75%, #2b9bf0);
+  border-radius: 30px 9px 20px 10px;
+  clip-path: polygon(0 0, 97% 0, 100% 8%, 96% 16%, 100% 23%, 94% 32%, 98% 41%, 95% 51%, 100% 58%, 93% 65%, 97% 74%, 91% 83%, 95% 91%, 79% 100%, 0 100%);
+}
+.lh-panel__header::after {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 5px;
+  right: 8%;
+  bottom: 15px;
+  transform: rotate(-19deg);
+  border-radius: 70%;
+  background: #a4e7fc;
+  box-shadow: 12px 9px 0 -1px #a4e7fc;
+  z-index: -1;
+  pointer-events: none;
+}
+.lh-panel__title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding-right: 12%;
+  color: #fff;
+  font-size: clamp(20px, 2.1vw, 28px);
+  line-height: 1.12;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  text-shadow: 0 2px 0 #0967c1, 1px 0 0 rgb(3 105 192 / 35%), -1px 0 0 rgb(3 105 192 / 35%);
+  overflow-wrap: anywhere;
+}
+.lh-panel__header > img { flex: 0 0 auto; object-fit: contain; width: 50px; height: 58px; margin-block: -13px -7px; }
+.lh-panel__body { padding: 18px 21px 23px; }
+.lh-panel__close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  width: 42px;
+  height: 42px;
+  margin: -8px -22px 0 -10px;
+  border: 3px solid #e9455c;
+  border-radius: 15px 16px 15px 14px;
+  background: linear-gradient(145deg, #ff8191, #fa526b);
+  color: #fff;
+  box-shadow: inset 0 2px 0 #ffadba, 0 3px 0 #c73855;
+  font: 1000 29px/1 var(--lh-font);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform .16s, filter .16s;
+}
+.lh-panel__close:active { transform: translateY(2px); }
+.lh-panel__close .lh-icon { width: 23px; height: 23px; }
+
+/* CARDS: image is optional, content is real text. */
+.lh-card {
+  position: relative;
+  padding: 11px;
+  border: 2px solid #b5eaf8;
+  border-radius: 22px;
+  background: linear-gradient(155deg, #f2fcff, #dff6ff);
+  box-shadow: inset 0 0 0 3px rgb(255 255 255 / 72%), 0 2px 0 rgb(94 194 224 / 16%);
+}
+.lh-card--selected, .lh-card[aria-selected="true"], .lh-card[aria-pressed="true"] {
+  border-color: #43bb70;
+  box-shadow: inset 0 0 0 3px #fff, 0 0 0 2px rgb(85 194 108 / 15%);
+}
+.lh-card--interactive { cursor: pointer; transition: transform .16s, box-shadow .16s; }
+.lh-card--interactive:focus-visible { outline: 3px solid var(--lh-focus); outline-offset: 4px; }
+.lh-card__art {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  aspect-ratio: 1.85;
+  overflow: hidden;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at 20% 17%, #d9fbff, transparent 43%), linear-gradient(#97def5, #6bccf3);
+}
+.lh-card__art > img { width: 100%; height: 100%; object-fit: contain; min-width: 0; }
+.lh-card__title { margin: 6px 0; color: var(--lh-ink-deep); font-size: 21px; line-height: 1.15; font-weight: 1000; text-align: center; }
+.lh-card__body { padding: 8px 6px; }
+.lh-card__body p { margin: 0 0 10px; font-size: 13px; line-height: 1.5; }
+
+/* Compact game rows and rarity/status badges. */
+.lh-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #b7eafa;
+  border-radius: 22px 25px 24px 20px;
+  background: linear-gradient(100deg, #c7f1fb, #d7f6fc 60%, #c7f1fc);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 68%);
+}
+.lh-row__content { flex: 1 1 120px; min-width: 0; }
+.lh-row__title { margin: 0; font-size: 18px; font-weight: 1000; line-height: 1.2; color: var(--lh-ink-deep); }
+.lh-row__description { margin: 3px 0 0; color: #1989c9; font-size: 12px; line-height: 1.3; }
+.lh-row > .lh-badge, .lh-row > .lh-button { flex-shrink: 0; }
+.lh-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35em;
+  max-width: 100%;
+  padding: 6px 11px;
+  border: 1px solid #7eacd1;
+  border-radius: 20px;
+  background: linear-gradient(#91b6dc, #769dcb);
+  color: #fff;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 25%);
+  font-size: 10px;
+  font-weight: 1000;
+  line-height: 1.15;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.lh-badge--success, .lh-badge--uncommon { border-color: #58b35c; background: linear-gradient(#8ad979, #60bd61); }
+.lh-badge--primary, .lh-badge--warning { border-color: #eaba41; background: linear-gradient(#ffe786, #ffcf53); color: #8a5715; }
+.lh-badge--danger { border-color: #ed6477; background: linear-gradient(#ff97a4, #f1697e); }
+.lh-badge--info, .lh-badge--rare { border-color: #489be1; background: linear-gradient(#6bc5fb, #369bea); }
+.lh-badge--epic { border-color: #946bd0; background: linear-gradient(#c49df0, #a476db); }
+.lh-badge--locked { border-color: #6b93c1; background: linear-gradient(#91b1d5, #7294bf); }
+.lh-badge--lg { padding: 8px 17px; font-size: 13px; }
+.lh-icon-badge {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border: 2px solid #268ddd;
+  border-radius: 50% 47% 49% 46%;
+  background: radial-gradient(circle at 34% 20%, #5fc8ff, #1c9ce8 65%, #1782d0);
+  box-shadow: inset 0 2px 0 #a8e6ff, 0 2px 0 rgb(8 99 174 / 12%);
+  color: #fff;
+  font-size: 24px;
+}
+.lh-icon-badge--gold { border-color: #efbe47; background: radial-gradient(circle at 32% 22%, #fff0a5, #ffdb60 70%, #ffcd38); box-shadow: inset 0 2px 0 #fff5c5; color: #bd7d24; }
+.lh-icon-badge--night { border-color: #416ba7; background: radial-gradient(circle at 32% 22%, #5d94ce, #3964aa); box-shadow: inset 0 2px 0 #8ec4e6; }
+.lh-icon-badge--lg { width: 62px; height: 62px; font-size: 34px; }
+.lh-icon-badge > img { width: 85%; height: 85%; object-fit: contain; }
+
+/* TABS: wrapper[data-lh-tabs], buttons[role=tab][aria-controls]. */
+.lh-tabs {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.lh-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 18px;
+  border: 2px solid #88bade;
+  border-radius: 17px;
+  background: linear-gradient(#b0d5ed, #8ebde0);
+  color: #386d9c;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 57%), 0 2px 0 rgb(58 125 178 / 15%);
+  font-size: 12px;
+  font-weight: 1000;
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+  transition: background .16s, border-color .16s, transform .16s;
+}
+.lh-tab[aria-selected="true"], .lh-tab.is-active {
+  border-color: #e8b634;
+  background: linear-gradient(#ffed9b, #ffda62);
+  color: var(--lh-ink);
+  box-shadow: inset 0 2px 0 #fff6c7, 0 2px 0 #e6b34b;
+}
+.lh-tabs--aqua .lh-tab[aria-selected="true"] { border-color: #45c1f2; background: linear-gradient(#b6f2ff, #71d8f9); color: #0789ce; box-shadow: inset 0 2px 0 #edfdff, 0 2px 0 #3aa9d6; }
+.lh-tabs--vertical { flex-direction: column; }
+.lh-tabs--vertical .lh-tab { justify-content: flex-start; text-align: left; }
+.lh-tab:disabled, .lh-tab[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+
+/* FIELDS: label.lh-field contains caption + a native input. */
+.lh-field { display: grid; gap: 7px; font-size: 12px; font-weight: 900; line-height: 1.4; }
+.lh-field__hint { color: #6294b3; font-size: 11px; font-weight: 700; }
+.lh-field__error { color: #ce4565; font-size: 11px; font-weight: 800; }
+.lh-input, .lh-select, .lh-textarea {
+  width: 100%;
+  min-height: 45px;
+  max-width: 100%;
+  margin: 0;
+  border: 2px solid #a4daed;
+  border-radius: 14px;
+  padding: 10px 13px;
+  background: linear-gradient(#e6f8fc, #f5fcfe);
+  box-shadow: inset 0 2px 3px rgb(52 147 174 / 9%), 0 1px 0 #fff;
+  font: 800 13px/1.5 var(--lh-font);
+  color: var(--lh-ink);
+  transition: border-color .15s, box-shadow .15s;
+}
+.lh-input::placeholder, .lh-textarea::placeholder { color: #81a7bd; opacity: 1; font-weight: 700; }
+.lh-input:focus, .lh-select:focus, .lh-textarea:focus { border-color: #3aafe9; }
+.lh-input[aria-invalid="true"], .lh-select[aria-invalid="true"], .lh-textarea[aria-invalid="true"] { border-color: #eb8198; background: #fff5f6; }
+.lh-input:disabled, .lh-select:disabled, .lh-textarea:disabled { opacity: .6; cursor: not-allowed; }
+.lh-select {
+  appearance: none;
+  padding-right: 37px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' stroke='%232985b9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"), linear-gradient(#e6f8fc, #f5fcfe);
+  background-repeat: no-repeat;
+  background-position: right 13px center, center;
+  cursor: pointer;
+}
+.lh-textarea { min-height: 94px; resize: vertical; }
+
+/* Native checkboxes/radios retain keyboard, forms, and accessibility behavior.
+ * <label class="lh-check"><input type="checkbox"><span>Caption</span></label>
+ */
+.lh-check, .lh-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 100%;
+  min-height: 32px;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.lh-check input, .lh-radio input {
+  appearance: none;
+  position: relative;
+  display: inline-grid;
+  place-content: center;
+  flex: 0 0 auto;
+  width: 23px;
+  height: 23px;
+  margin: 0;
+  border: 2px solid #91ccdf;
+  border-radius: 7px;
+  background: #ecfaff;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 85%), 0 2px 0 rgb(32 130 174 / 9%);
+  cursor: pointer;
+}
+.lh-check input:checked { border-color: #39ab65; background: linear-gradient(#7cda91, #40be6d); }
+.lh-check input::before {
+  content: '';
+  width: 11px;
+  height: 7px;
+  margin-top: -3px;
+  border-left: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  transform: rotate(-45deg) scale(0);
+  transition: transform .12s;
+}
+.lh-check input:checked::before { transform: rotate(-45deg) scale(1); }
+.lh-check input:indeterminate { border-color: #369fd8; background: #65bff0; }
+.lh-check input:indeterminate::before { height: 0; margin-top: 0; border-left: none; transform: none; }
+.lh-radio input { border-radius: 50%; }
+.lh-radio input::before { content: ''; width: 11px; height: 11px; border-radius: 50%; background: #fff; transform: scale(0); transition: transform .12s; }
+.lh-radio input:checked { border-color: #228cce; background: linear-gradient(#76cdfb, #299fe7); }
+.lh-radio input:checked::before { transform: scale(1); }
+.lh-check input:focus-visible, .lh-radio input:focus-visible, .lh-switch input:focus-visible { outline: 3px solid var(--lh-focus); outline-offset: 4px; }
+.lh-check:has(input:disabled), .lh-radio:has(input:disabled), .lh-switch:has(input:disabled) { opacity: .5; cursor: not-allowed; }
+.lh-check input:disabled, .lh-radio input:disabled, .lh-switch input:disabled { cursor: not-allowed; }
+
+/* SWITCH: <label class="lh-switch"><input type="checkbox"><span>Sound</span></label> */
+.lh-switch { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; min-height: 32px; font-size: 12px; line-height: 1.4; cursor: pointer; }
+.lh-switch input {
+  appearance: none;
+  position: relative;
+  flex: 0 0 auto;
+  width: 45px;
+  height: 26px;
+  margin: 0;
+  border: 2px solid #8bbbd5;
+  border-radius: 20px;
+  background: #accfe3;
+  box-shadow: inset 0 2px 3px rgb(34 97 152 / 14%);
+  cursor: pointer;
+  transition: background .18s, border-color .18s;
+}
+.lh-switch input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fffdf3; box-shadow: 0 2px 2px rgb(32 76 106 / 25%); transition: transform .18s; }
+.lh-switch input:checked { background: #67ca7a; border-color: #4bb461; }
+.lh-switch input:checked::after { transform: translateX(19px); }
+
+/* RANGE: --lh-range-fill is optional, runtime keeps it in sync with value. */
+.lh-range {
+  --lh-range-fill: 50%;
+  appearance: none;
+  width: 100%;
+  height: 12px;
+  min-width: 0;
+  margin: 9px 0;
+  border: 2px solid #9bcfde;
+  border-radius: 20px;
+  background: linear-gradient(to right, #69cd83 0 var(--lh-range-fill), #dceff6 var(--lh-range-fill) 100%);
+  box-shadow: inset 0 2px 1px rgb(55 135 155 / 12%);
+  cursor: pointer;
+}
+.lh-range::-webkit-slider-thumb { appearance: none; width: 25px; height: 25px; border: 2px solid #d9a626; border-radius: 50%; background: linear-gradient(#ffe987, #ffd439); box-shadow: inset 0 2px 0 #fff8bf, 0 2px 0 #cba136; }
+.lh-range::-moz-range-thumb { width: 21px; height: 21px; border: 2px solid #d9a626; border-radius: 50%; background: linear-gradient(#ffe987, #ffd439); box-shadow: inset 0 2px 0 #fff8bf, 0 2px 0 #cba136; }
+.lh-range:disabled { opacity: .5; cursor: not-allowed; }
+
+/* PROGRESS: <progress class="lh-progress" value="64" max="100">64%</progress> */
+.lh-progress {
+  --lh-progress-start: #99e586;
+  --lh-progress-end: #4bc475;
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 16px;
+  overflow: hidden;
+  border: 2px solid #acdce9;
+  border-radius: 20px;
+  background: #d5ecf6;
+  box-shadow: inset 0 2px 2px rgb(43 124 155 / 10%);
+}
+.lh-progress::-webkit-progress-bar { border-radius: 20px; background: #d5ecf6; box-shadow: inset 0 2px 2px rgb(43 124 155 / 10%); }
+.lh-progress::-webkit-progress-value { border-radius: 20px; background: linear-gradient(var(--lh-progress-start), var(--lh-progress-end)); box-shadow: inset 0 2px 0 rgb(255 255 255 / 50%); transition: width .25s ease; }
+.lh-progress::-moz-progress-bar { border-radius: 20px; background: linear-gradient(var(--lh-progress-start), var(--lh-progress-end)); box-shadow: inset 0 2px 0 rgb(255 255 255 / 50%); }
+.lh-progress--gold { --lh-progress-start: #ffeb85; --lh-progress-end: #ffd13e; }
+.lh-progress--blue { --lh-progress-start: #75d6ff; --lh-progress-end: #289fe9; }
+.lh-level-dots { display: flex; flex-wrap: wrap; gap: 5px; }
+.lh-level-dots > span { display: block; width: 12px; height: 12px; border: 1.5px solid #65a6d2; border-radius: 50%; background: #96c9e8; box-shadow: inset 0 1px 0 rgb(255 255 255 / 40%); }
+.lh-level-dots > .is-filled { border-color: #ebaf33; background: linear-gradient(#ffea8a, #ffce38); }
+.lh-level-dots--lg { gap: 9px; }
+.lh-level-dots--lg > span { width: 22px; height: 22px; border-width: 2px; }
+
+/* TOOLTIP: add data-tip="Helpful text" to a focusable .lh-tooltip.
+ * Keep equivalent accessible text in aria-label or aria-describedby.
+ */
+.lh-tooltip { position: relative; }
+.lh-tooltip[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  z-index: 20;
+  width: max-content;
+  max-width: min(240px, 70vw);
+  padding: 9px 12px;
+  border: 2px solid #165f99;
+  border-radius: 12px;
+  background: #15598f;
+  box-shadow: 0 4px 0 rgb(3 39 80 / 12%);
+  color: #fff;
+  font: 800 11px/1.5 var(--lh-font);
+  text-transform: none;
+  letter-spacing: 0;
+  text-shadow: none;
+  text-align: center;
+  overflow-wrap: anywhere;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 4px);
+  transition: opacity .16s, transform .16s, visibility .16s;
+  pointer-events: none;
+}
+.lh-tooltip[data-tip]:hover::after, .lh-tooltip[data-tip]:focus-visible::after, .lh-tooltip[data-tip]:focus-within::after { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+/* DIALOG: native <dialog class="lh-dialog"><section class="lh-panel">...
+ * Use showModal through openDialog() for focus containment and Escape.
+ */
+.lh-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(520px, calc(100vw - 32px));
+  height: fit-content;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  overflow: auto;
+  color: var(--lh-ink);
+}
+.lh-dialog:not(.lh-panel) { padding: 8px 6px 10px; border: 0; background: transparent; }
+.lh-dialog.lh-panel { padding: 0; }
+.lh-dialog::backdrop { background: rgb(6 62 102 / 54%); backdrop-filter: blur(5px); }
+.lh-dialog[open] { animation: lh-dialog-enter .2s ease-out; }
+.lh-dialog .lh-panel { margin: 0; }
+.lh-dialog__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-top: 23px; }
+
+/* TOASTS: runtime creates the live region; standalone markup also works. */
+.lh-toast-region { position: fixed; z-index: 1000; inset: auto 20px 20px auto; display: grid; justify-items: end; gap: 12px; width: min(380px, calc(100vw - 40px)); pointer-events: none; }
+.lh-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 2px solid #9edbea;
+  border-radius: 20px;
+  background: #f7fef6;
+  box-shadow: inset 0 2px 0 #fff, 0 5px 0 rgb(37 117 143 / 12%), 0 12px 25px rgb(11 55 91 / 18%);
+  color: var(--lh-ink);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.4;
+  pointer-events: auto;
+  animation: lh-toast-enter .22s ease-out;
+}
+.lh-toast--success { border-color: #77c990; background: #f3fff4; }
+.lh-toast--danger, .lh-toast--error { border-color: #f196a3; background: #fff7f5; }
+.lh-toast--warning { border-color: #eac770; background: #fffcef; }
+.lh-toast__message { flex: 1; min-width: 0; }
+.lh-toast__close { flex: 0 0 auto; display: grid; place-items: center; width: 27px; height: 27px; padding: 0; border: 0; border-radius: 9px; background: rgb(39 109 153 / 8%); color: #6092ae; font: 900 20px/1 var(--lh-font); cursor: pointer; }
+.lh-toast__close:focus-visible { outline: 3px solid var(--lh-focus); outline-offset: 3px; }
+
+@keyframes lh-dialog-enter { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes lh-toast-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes lh-spin { to { transform: rotate(360deg); } }
+@media (hover: hover) {
+  .lh-button:hover:not(:disabled):not([aria-disabled="true"]) { filter: brightness(1.045); transform: translateY(-1px); }
+  .lh-button[aria-pressed="true"]:hover { transform: translateY(2px); }
+  .lh-panel__close:hover { filter: brightness(1.07); }
+  .lh-card--interactive:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 3px rgb(255 255 255 / 72%), 0 6px 0 rgb(94 194 224 / 16%); }
+  .lh-tab:hover:not(:disabled):not([aria-disabled="true"]) { filter: brightness(1.035); }
+}
+@media (max-width: 480px) {
+  .lh-panel { border-width: 4px; border-radius: 26px; }
+  .lh-panel__header { padding-inline: 16px; gap: 9px; }
+  .lh-panel__title { font-size: 21px; }
+  .lh-panel__body { padding: 15px 13px 18px; }
+  .lh-panel__close { margin-right: -15px; }
+  .lh-row { gap: 9px; padding: 9px 10px; }
+  .lh-row__title { font-size: 15px; }
+  .lh-row > .lh-badge { max-width: 35%; }
+  .lh-dialog__actions > .lh-button { flex: 1 1 130px; }
+  .lh-toast-region { right: 12px; bottom: 12px; width: calc(100vw - 24px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where([class^="lh-"], [class*=" lh-"]), :where([class^="lh-"], [class*=" lh-"]) *, :where([class^="lh-"], [class*=" lh-"])::before, :where([class^="lh-"], [class*=" lh-"])::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

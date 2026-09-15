@@ -1,0 +1,20 @@
+import {icon} from './kit/icons.js';
+import {initLighthouse} from './kit/lighthouse.js';
+import {mountGameUI} from './kit/game-ui.js';
+
+const app=document.getElementById('preview-app');
+app.innerHTML=`<nav class="preview-tools" aria-label="Управление превью"><button data-screen="collection" aria-pressed="true">Экран 1</button><button data-screen="progression" aria-pressed="false">Экран 2</button><button data-screen="components" aria-pressed="false">Элементы</button><span class="tool-separator"></span><button id="preview-settings-toggle" aria-label="Настройки превью" aria-controls="preview-settings" aria-expanded="false">${icon('sliders')}</button><button id="reset-preview" aria-label="Сбросить и восстановить все окна">${icon('rotate')}</button><a href="catalog.html" aria-label="Каталог компонентов и код">${icon('code')}<span class="tool-label">Каталог</span></a><a href="lighthouse-uikit.zip" download aria-label="Скачать UIKit">${icon('download')}</a></nav><div class="preview-settings" id="preview-settings" hidden><label>Ширина <span><input type="range" id="preview-width" min="340" max="1528" value="1528" aria-label="Ширина контейнера"><output id="preview-width-value">Auto</output></span></label><label>Длинный текст<input type="checkbox" id="preview-long"></label><label>Награда доступна<input type="checkbox" id="preview-reward"></label><label>Только интерфейс<input type="checkbox" id="preview-background"></label><p class="settings-caption">Живые HTML-компоненты. Меняйте размер, нажимайте кнопки, переключайте вкладки.</p></div><main class="ref-stage" id="ref-stage"><div id="game-ui"></div></main>`;
+const game=mountGameUI(document.getElementById('game-ui'));
+const cleanup=initLighthouse();
+const screenButtons=[...document.querySelectorAll('[data-screen]')];
+function setScreen(screen){game.setScreen(screen);screenButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.screen===screen)));const url=new URL(location.href);url.searchParams.set('screen',screen);history.replaceState(null,'',url);window.scrollTo({top:0,behavior:'instant'});}
+screenButtons.forEach(button=>button.addEventListener('click',()=>setScreen(button.dataset.screen)));
+const initial=new URL(location.href).searchParams.get('screen');if(['collection','progression','components'].includes(initial))setScreen(initial);
+document.getElementById('preview-settings-toggle').addEventListener('click',()=>{const panel=document.getElementById('preview-settings');panel.hidden=!panel.hidden;document.getElementById('preview-settings-toggle').setAttribute('aria-expanded',String(!panel.hidden));});
+document.getElementById('preview-width').addEventListener('input',event=>{document.getElementById('ref-stage').style.maxWidth=`${event.target.value}px`;document.getElementById('preview-width-value').textContent=`${event.target.value}px`;});
+document.getElementById('preview-long').addEventListener('change',event=>game.setLongText(event.target.checked));
+document.getElementById('preview-reward').addEventListener('change',event=>game.setRewardAvailable(event.target.checked));
+document.getElementById('preview-background').addEventListener('change',event=>{document.body.style.background=event.target.checked?'#e7edf0':'';});
+document.getElementById('reset-preview').addEventListener('click',()=>{game.reset();document.getElementById('preview-long').checked=false;document.getElementById('preview-reward').checked=false;document.getElementById('preview-width').value=1528;document.getElementById('preview-width-value').textContent='Auto';document.getElementById('ref-stage').style.maxWidth='';document.getElementById('preview-background').checked=false;document.body.style.background='';});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){document.getElementById('preview-settings').hidden=true;document.getElementById('preview-settings-toggle').setAttribute('aria-expanded','false');}});
+window.addEventListener('pagehide',event=>{if(!event.persisted){game.destroy();cleanup();}});

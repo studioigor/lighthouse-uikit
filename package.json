@@ -1,0 +1,13 @@
+{
+  "name": "lighthouse-uikit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Локальный адаптивный UI kit для морской игры. HTML, CSS, SVG и ES modules.",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "engines": { "node": ">=18" }
+}

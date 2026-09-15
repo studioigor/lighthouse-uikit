@@ -1,0 +1,33 @@
+{
+  "asset": "header-brush.png",
+  "size": [
+    2116,
+    373
+  ],
+  "mode": "RGBA",
+  "sourceCrop": [
+    47,
+    191,
+    2163,
+    564
+  ],
+  "alphaBoundsThresholdForCropping": 8,
+  "alphaPreserved": true,
+  "threeSlice": {
+    "leftSourceWidth": 340,
+    "rightSourceWidth": 430,
+    "middleSourceRange": [
+      340,
+      1686
+    ],
+    "fullSourceHeight": 373
+  },
+  "cssExampleAt80pxHeight": {
+    "height": "80px",
+    "borderImageSlice": "0 430 0 340 fill",
+    "borderImageWidth": "0 92.23px 0 72.92px",
+    "borderStyle": "solid",
+    "borderImageRepeat": "stretch"
+  },
+  "notes": "3-slice cap widths scale proportionally with desired height; stretch only the middle horizontally. Separate left/middle/right PNGs are equivalent convenience assets. Original alpha values are preserved; crop excludes only distant almost invisible generation specks."
+}
